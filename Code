@@ -291,7 +291,8 @@ local function updateScale()
     local viewport = camera.ViewportSize
     local scaleX = (viewport.X - 24) / 680
     local scaleY = (viewport.Y - 24) / 455
-    targetScale = math.clamp(math.min(scaleX, scaleY, 1), 0.62, 1)
+    -- làm tròn scale để tránh chữ bị mờ do scale lẻ (sub-pixel)
+    targetScale = math.floor(math.clamp(math.min(scaleX, scaleY, 1), 0.62, 1) * 100 + 0.5) / 100
     if isMenuVisible then
         UIScale.Scale = targetScale
     end
@@ -320,7 +321,7 @@ local ThemeBackground = make("ImageLabel", {
     Size = UDim2.new(1, 0, 1, 0),
     BackgroundTransparency = 1,
     Image = THEMES[CurrentTheme].Background or "",
-    ImageTransparency = 0.55, -- nền nhạt hơn để UI rõ, không bị mờ
+    ImageTransparency = 0.72,
     ScaleType = Enum.ScaleType.Crop,
     ZIndex = 0,
 }, Main)
@@ -584,7 +585,7 @@ local function applyThemeColors()
     if MainStroke then MainStroke.Color = COLORS.Accent end
     if ThemeBackground then
         ThemeBackground.Image = (THEMES[CurrentTheme] and THEMES[CurrentTheme].Background) or ""
-        ThemeBackground.ImageTransparency = ThemeBackground.Image == "" and 1 or 0.55
+        ThemeBackground.ImageTransparency = ThemeBackground.Image == "" and 1 or 0.72
     end
     if BrandMark then BrandMark.BackgroundColor3 = COLORS.Accent end
     if ToggleIcon then ToggleIcon.BackgroundColor3 = COLORS.Accent end
@@ -702,7 +703,7 @@ local function createCard(parent, height)
     local card = make("Frame", {
         Size = UDim2.new(1, -4, 0, height),
         BackgroundColor3 = COLORS.Panel,
-        BackgroundTransparency = 0.08, -- gần đặc, hết mờ
+        BackgroundTransparency = 0,
         BorderSizePixel = 0,
     }, parent or ContentFrame)
     corner(card, 12)
@@ -865,7 +866,7 @@ RenderPage = function()
     for id, button in pairs(NavButtons) do
         local selected = id == CurrentPage
         button.BackgroundColor3 = selected and COLORS.Accent or COLORS.Panel
-        button.BackgroundTransparency = selected and 0.82 or 1
+        button.BackgroundTransparency = selected and 0.35 or 1
         button.TextColor3 = selected and COLORS.Text or COLORS.Muted
     end
 
