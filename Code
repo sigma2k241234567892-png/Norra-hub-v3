@@ -301,14 +301,15 @@ if workspace.CurrentCamera then
     workspace.CurrentCamera:GetPropertyChangedSignal("ViewportSize"):Connect(updateScale)
 end
 
--- Main dùng CanvasGroup: cắt đúng 4 góc theo UICorner (Frame.ClipsDescendants hay bị lệch góc)
-local Main = make("CanvasGroup", {
+-- Main = Frame (sắc nét). UIScale ở Holder nên 4 góc vẫn clip; tránh CanvasGroup bị mờ
+local Main = make("Frame", {
     Name = "Main",
     Position = UDim2.new(0, 0, 0, 0),
     Size = UDim2.new(1, 0, 1, 0),
     BackgroundColor3 = COLORS.Background,
     BackgroundTransparency = 0,
     BorderSizePixel = 0,
+    ClipsDescendants = true,
 }, Holder)
 local MainCorner = corner(Main, 22)
 local MainStroke = stroke(Main, COLORS.Accent, 0.12, 2)
