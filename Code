@@ -319,7 +319,7 @@ local ThemeBackground = make("ImageLabel", {
     Size = UDim2.new(1, 0, 1, 0),
     BackgroundTransparency = 1,
     Image = THEMES[CurrentTheme].Background or "",
-    ImageTransparency = 0.35,
+    ImageTransparency = 0.55, -- nền nhạt hơn để UI rõ, không bị mờ
     ScaleType = Enum.ScaleType.Crop,
     ZIndex = 0,
 }, Main)
@@ -330,7 +330,7 @@ local TopBar = make("Frame", {
     Position = UDim2.new(0, 0, 0, 0),
     Size = UDim2.new(1, 0, 0, 58),
     BackgroundColor3 = COLORS.Panel,
-    BackgroundTransparency = 0.12,
+    BackgroundTransparency = 0, -- đặc để chữ/logo sắc nét
     BorderSizePixel = 0,
 }, Main)
 -- TopBar góc vuông; 4 góc ngoài do Main.ClipsDescendants + UICorner cắt
@@ -418,7 +418,7 @@ local Sidebar = make("Frame", {
     Position = UDim2.new(0, 0, 0, 58),
     Size = UDim2.new(0, 158, 1, -58),
     BackgroundColor3 = COLORS.Panel,
-    BackgroundTransparency = 0.15,
+    BackgroundTransparency = 0, -- đặc để tab rõ, không mờ
     BorderSizePixel = 0,
 }, Main)
 -- Không gắn UICorner cho Sidebar: Main.ClipsDescendants sẽ cắt góc dưới-trái cho khớp bo góc menu
@@ -583,7 +583,7 @@ local function applyThemeColors()
     if MainStroke then MainStroke.Color = COLORS.Accent end
     if ThemeBackground then
         ThemeBackground.Image = (THEMES[CurrentTheme] and THEMES[CurrentTheme].Background) or ""
-        ThemeBackground.ImageTransparency = ThemeBackground.Image == "" and 1 or 0.35
+        ThemeBackground.ImageTransparency = ThemeBackground.Image == "" and 1 or 0.55
     end
     if BrandMark then BrandMark.BackgroundColor3 = COLORS.Accent end
     if ToggleIcon then ToggleIcon.BackgroundColor3 = COLORS.Accent end
@@ -701,11 +701,11 @@ local function createCard(parent, height)
     local card = make("Frame", {
         Size = UDim2.new(1, -4, 0, height),
         BackgroundColor3 = COLORS.Panel,
-        BackgroundTransparency = 0.30,
+        BackgroundTransparency = 0.08, -- gần đặc, hết mờ
         BorderSizePixel = 0,
     }, parent or ContentFrame)
     corner(card, 12)
-    stroke(card, COLORS.Border, 0.35)
+    stroke(card, COLORS.Border, 0.45)
     return card
 end
 
